@@ -54,7 +54,7 @@ fun NavigationIsland(
                         LeftNavContent(
                             width = 64.dp,
                             vectorId = R.drawable.search,
-                            onClick = {navbarViewModel.onSearch()},
+                            onClick = {navbarViewModel.onSearch("Crypto")},
                             navbarViewModel = navbarViewModel
                         )
                         CenterNavButtons(
@@ -70,13 +70,15 @@ fun NavigationIsland(
                         )
                     }
                     is NavbarViewModel.State.Searching -> {
+                        var text by remember { mutableStateOf("")}
                         LeftNavContent(
                             width = 64.dp,
                             vectorId = R.drawable.search,
-                            onClick = {navbarViewModel.onSearch()},
+                            onClick = {navbarViewModel.onSearch(text)},
                             navbarViewModel = navbarViewModel
                         )
-                        CenterNavSearch(width = 208.dp, temporaryText = "Hola", navbarViewModel = navbarViewModel)
+                        CenterNavSearch(width = 208.dp, temporaryText = "Hola", navbarViewModel = navbarViewModel,
+                            textH = { str -> text = str})
                         RightNavContent(
                             width = 64.dp,
                             vectorId = R.drawable.cancel,
@@ -199,7 +201,7 @@ private fun RightNavContent(width: Dp, vectorId : Int, onClick: () -> Unit, cont
 }
 
 @Composable
-private fun CenterNavSearch(width : Dp, temporaryText : String, contentColor : Color = MaterialTheme.colorScheme.secondary, navbarViewModel : NavbarViewModel){
+private fun CenterNavSearch(width : Dp, temporaryText : String, contentColor : Color = MaterialTheme.colorScheme.secondary, navbarViewModel : NavbarViewModel, textH : (String) -> Unit){
     var text by remember { mutableStateOf("")}
     TextField(
         value = text,

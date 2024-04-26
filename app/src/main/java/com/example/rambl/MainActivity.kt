@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity(
 ) {
     override fun onCreate(savedInstanceState: Bundle?) {
         val newsModel = NewsModel()
-        val navbarViewModel = NavbarViewModel()
+        val navbarViewModel = NavbarViewModel(newsModel)
         val newsViewModel = NewsViewModel(newsModel)
         super.onCreate(savedInstanceState)
         setContent {
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity(
                                 ProfileScreen()
                             }
                             composable("news") {
-                                navbarViewModel.onProfile(false)
+                                navbarViewModel.onReturn()
                                 NewsScreen(navbarViewModel, newsViewModel)
                             }
                             composable("rambl") {

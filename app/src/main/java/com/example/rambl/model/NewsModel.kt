@@ -43,12 +43,13 @@ class NewsModel : ViewModel() {
         }
     }
 
-    fun refresh(){
+    fun search(query : String?){
+        Log.d("News", query!!)
         viewModelScope.launch(Dispatchers.IO) {
             val client = OkHttpClient()
 
             val request = Request.Builder()
-                .url("https://newsapi.org/v2/top-headlines?country=us&apiKey=2a81a96a4ed24309961db8995ade6ee2")
+                .url("https://newsapi.org/v2/everything?q=${query}&from=2024-03-25&sortBy=publishedAt&apiKey=2a81a96a4ed24309961db8995ade6ee2")
                 .build()
 
             client.newCall(request).execute().use { response ->

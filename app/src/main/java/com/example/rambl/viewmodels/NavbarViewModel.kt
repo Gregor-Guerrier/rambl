@@ -1,20 +1,25 @@
 package com.example.rambl.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.cornellappdev.android.eateryblue.ui.model.NewsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NavbarViewModel @Inject constructor() : ViewModel() {
+class NavbarViewModel @Inject constructor(
+    val newsModel: NewsModel
+) : ViewModel() {
     sealed class State {
         data class Standard (
             val content : List<String>
         ): State()
 
         data class Searching (
-            val searchContent : String
+            var searchContent : String
         ) : State()
 
         data class RamblOptions (
@@ -34,9 +39,11 @@ class NavbarViewModel @Inject constructor() : ViewModel() {
     private var _state = MutableStateFlow<State>(State.Standard(listOf("Search", "Rambl", "Notification", "News", "Account")))
     val state = _state.asStateFlow()
 
-    fun onSearch(){
+    fun onSearch(search : String){
         if(_state.value is State.Searching){
-            // Todo: Add function that allows the searching when the current state is searching.
+            viewModelScope.launch {
+                newsModel.search(search)
+            }
         } else {
             _state.value = State.Searching("")
         }
@@ -49,7 +56,7 @@ class NavbarViewModel @Inject constructor() : ViewModel() {
 
     fun onSearchTyped(searchContent : String){
         if(_state.value !is State.Searching) return
-        _state.value = State.Searching(searchContent)
+        (_state.value as State.Searching).searchContent = searchContent
     }
 
     fun onProfile(personalAccount: Boolean){

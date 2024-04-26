@@ -117,7 +117,7 @@ fun NewsScreen(
                 selected = (index == selected),
                 index,
                 newsViewModel.ramblFLow.value[index].title,
-                newsViewModel.ramblFLow.value[index].author
+                newsViewModel.ramblFLow.value[index].author ?: newsViewModel.ramblFLow.value[index].source.name
             )
         }
         item{

@@ -161,11 +161,12 @@ fun ProfileScreen(){
                 .padding(bottom = 16.dp)
         )
         Text(
-            text = "Trying to find my way in life. Over-ambitious guy with not enough hours in the day...",
+            text = "Womp Womp...",//"Trying to find my way in life. Over-ambitious guy with not enough hours in the day...",
             style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.secondary),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(horizontal = 24.dp)
+                .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
         var selected by remember { mutableIntStateOf(-1) }
